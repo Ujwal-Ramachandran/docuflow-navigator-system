@@ -490,7 +490,7 @@ export const mockWorkflows: Workflows = {
         {
           team: "Team B",
           username: "michaelbrown",
-          approved_by": "michaelbrown",
+          approved_by: "michaelbrown",
           approved_on: "26-03-2025",
           comments: "Rejected due to errors"
         },
