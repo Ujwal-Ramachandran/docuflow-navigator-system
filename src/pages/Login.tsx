@@ -80,10 +80,24 @@ const Login = () => {
           </CardContent>
           <CardFooter className="flex flex-col">
             <div className="text-sm text-muted-foreground text-center mt-2">
-              <p>For demo purposes, try these accounts:</p>
-              <p className="font-medium">admin / admin123</p>
-              <p className="font-medium">design_manager / manager123</p>
-              <p className="font-medium">design_member / member123</p>
+              <p>For demonstration purposes, try these accounts:</p>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
+                <div className="border rounded p-2">
+                  <p className="font-semibold">Admin</p>
+                  <p>johndoe</p>
+                  <p>password123</p>
+                </div>
+                <div className="border rounded p-2">
+                  <p className="font-semibold">Team Manager</p>
+                  <p>janesmith</p>
+                  <p>password456</p>
+                </div>
+                <div className="border rounded p-2">
+                  <p className="font-semibold">Team Member</p>
+                  <p>emilyjohnson</p>
+                  <p>password789</p>
+                </div>
+              </div>
             </div>
           </CardFooter>
         </Card>

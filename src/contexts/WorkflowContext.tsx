@@ -18,7 +18,8 @@ interface WorkflowContextType {
 
 const WorkflowContext = createContext<WorkflowContextType | undefined>(undefined);
 
-const TEAM_SEQUENCE = ["Design Team", "Review Team", "Approval Team"];
+// Updated TEAM_SEQUENCE based on the provided team data
+const TEAM_SEQUENCE = ["Team A", "Team B", "Team C", "Team D", "Team E", "Team F", "Team G", "Team H"];
 
 export const WorkflowProvider = ({ children }: { children: ReactNode }) => {
   const [workflows, setWorkflows] = useState<Workflow[]>(mockWorkflows.workflows);
