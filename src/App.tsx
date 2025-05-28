@@ -19,36 +19,38 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <AuthProvider>
-        <WorkflowProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Navigate to="/login" replace />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/" element={
-                <PrivateRoute>
-                  <Layout />
-                </PrivateRoute>
-              }>
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/documents" element={<Documents />} />
-                <Route path="/documents/:id" element={<DocumentDetail />} />
-                <Route path="/teams" element={<Teams />} />
-                <Route path="/users" element={<Users />} />
-                <Route path="/settings" element={<Settings />} />
-              </Route>
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
-        </WorkflowProvider>
-      </AuthProvider>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+const App = () => {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <AuthProvider>
+          <WorkflowProvider>
+            <TooltipProvider>
+              <Toaster />
+              <Sonner />
+              <Routes>
+                <Route path="/" element={<Navigate to="/login" replace />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/" element={
+                  <PrivateRoute>
+                    <Layout />
+                  </PrivateRoute>
+                }>
+                  <Route path="/dashboard" element={<Dashboard />} />
+                  <Route path="/documents" element={<Documents />} />
+                  <Route path="/documents/:id" element={<DocumentDetail />} />
+                  <Route path="/teams" element={<Teams />} />
+                  <Route path="/users" element={<Users />} />
+                  <Route path="/settings" element={<Settings />} />
+                </Route>
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </TooltipProvider>
+          </WorkflowProvider>
+        </AuthProvider>
+      </BrowserRouter>
+    </QueryClientProvider>
+  );
+};
 
 export default App;

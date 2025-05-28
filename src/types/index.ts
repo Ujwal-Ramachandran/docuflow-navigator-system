@@ -45,6 +45,7 @@ export interface Workflow {
   status: WorkflowStatus;
   team_handling: string;
   documents: string;
+  file_name?: string; // Legacy field for backward compatibility
   assigned_user: string;
   team_manager: string;
   assigned_date: string;

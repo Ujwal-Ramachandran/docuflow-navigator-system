@@ -58,6 +58,10 @@ export const CreateWorkflowDialog: React.FC<CreateWorkflowDialogProps> = ({
     );
   };
 
+  const handleCustomTeamsChange = (checked: boolean | "indeterminate") => {
+    setUseCustomTeams(checked === true);
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[600px]">
@@ -96,7 +100,7 @@ export const CreateWorkflowDialog: React.FC<CreateWorkflowDialogProps> = ({
               <Checkbox
                 id="custom-teams"
                 checked={useCustomTeams}
-                onCheckedChange={setUseCustomTeams}
+                onCheckedChange={handleCustomTeamsChange}
               />
               <Label htmlFor="custom-teams">
                 Customize team sequence (default: all teams)
