@@ -28,6 +28,7 @@ import {
   CardTitle
 } from '@/components/ui/card';
 import { FileText, Search, Plus } from 'lucide-react';
+import { CreateWorkflowDialog } from '@/components/CreateWorkflowDialog';
 
 const Documents = () => {
   const { workflows } = useWorkflow();
@@ -36,6 +37,7 @@ const Documents = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [teamFilter, setTeamFilter] = useState('all');
+  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   
   // Filter workflows based on user role
   let filteredWorkflows = [...workflows];
@@ -52,7 +54,7 @@ const Documents = () => {
     filteredWorkflows = filteredWorkflows.filter(w => 
       w.name.toLowerCase().includes(term) || 
       w.id.toLowerCase().includes(term) ||
-      w.file_name.toLowerCase().includes(term)
+      w.documents.toLowerCase().includes(term)
     );
   }
   
@@ -95,7 +97,7 @@ const Documents = () => {
         </div>
         
         {currentUser?.role === 'admin' && (
-          <Button className="flex items-center">
+          <Button className="flex items-center" onClick={() => setIsCreateDialogOpen(true)}>
             <Plus className="h-4 w-4 mr-2" />
             New Document
           </Button>
@@ -157,6 +159,7 @@ const Documents = () => {
                     <TableHead>Document Name</TableHead>
                     <TableHead>Status</TableHead>
                     <TableHead>Team</TableHead>
+                    <TableHead>Documents</TableHead>
                     <TableHead>Assigned User</TableHead>
                     <TableHead>Date</TableHead>
                   </TableRow>
@@ -179,6 +182,7 @@ const Documents = () => {
                         </Badge>
                       </TableCell>
                       <TableCell>{workflow.team_handling}</TableCell>
+                      <TableCell className="max-w-xs truncate">{workflow.documents}</TableCell>
                       <TableCell>{workflow.assigned_user || 'Unassigned'}</TableCell>
                       <TableCell>{workflow.assigned_date}</TableCell>
                     </TableRow>
@@ -199,6 +203,11 @@ const Documents = () => {
           )}
         </CardContent>
       </Card>
+
+      <CreateWorkflowDialog 
+        isOpen={isCreateDialogOpen} 
+        onClose={() => setIsCreateDialogOpen(false)} 
+      />
     </div>
   );
 };

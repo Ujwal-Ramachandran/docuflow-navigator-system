@@ -89,13 +89,13 @@ const Login = () => {
                 </div>
                 <div className="border rounded p-2">
                   <p className="font-semibold">Team Manager</p>
-                  <p>janesmith</p>
-                  <p>password456</p>
+                  <p>michaelbrown</p>
+                  <p>password012</p>
                 </div>
                 <div className="border rounded p-2">
                   <p className="font-semibold">Team Member</p>
-                  <p>emilyjohnson</p>
-                  <p>password789</p>
+                  <p>liammartin</p>
+                  <p>password9012</p>
                 </div>
               </div>
             </div>

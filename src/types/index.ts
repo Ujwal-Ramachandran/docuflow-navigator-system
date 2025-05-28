@@ -35,6 +35,7 @@ export interface WorkflowHistoryItem {
   approved_by: string;
   approved_on: string;
   comments: string;
+  documents_changed?: string;
 }
 
 export interface Workflow {
@@ -43,11 +44,12 @@ export interface Workflow {
   location: string;
   status: WorkflowStatus;
   team_handling: string;
-  file_name: string;
+  documents: string;
   assigned_user: string;
   team_manager: string;
   assigned_date: string;
   workflow_history: WorkflowHistoryItem[];
+  next_teams: string;
 }
 
 export interface Workflows {

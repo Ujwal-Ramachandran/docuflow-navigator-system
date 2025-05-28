@@ -151,6 +151,10 @@ export const mockUsers: Users = {
 
 export const mockTeams: Teams = {
   teams: {
+    "Admin": {
+      manager: "John Doe",
+      member: "Olivia Miller, Elijah Walker, Benjamin Thompson"
+    },
     "Team A": {
       manager: "Jane Smith",
       member: "Emily Johnson"
@@ -194,26 +198,29 @@ export const mockWorkflows: Workflows = {
       location: "/storage/documents/Workflow 1",
       status: "In Progress",
       team_handling: "Team C",
-      file_name: "doc_review_3.pdf",
+      documents: "contract.pdf, specs.docx",
       assigned_user: "sophiadavis",
       team_manager: "danielgreen",
-      assigned_date: "22-03-2025",
+      assigned_date: "03-06-2025",
       workflow_history: [
         {
           team: "Team A",
           username: "emilyjohnson",
           approved_by: "janesmith",
-          approved_on: "20-03-2025",
-          comments: "Changed date"
+          approved_on: "01-06-2025",
+          comments: "Initial approval",
+          documents_changed: "contract.pdf"
         },
         {
           team: "Team B",
           username: "michaelbrown",
           approved_by: "michaelbrown",
-          approved_on: "22-03-2025",
-          comments: "Approved"
+          approved_on: "02-06-2025",
+          comments: "Format adjustments",
+          documents_changed: "specs.docx"
         }
-      ]
+      ],
+      next_teams: "Team D, Team E, Team F, Team G"
     },
     {
       id: "WF-002",
@@ -221,328 +228,329 @@ export const mockWorkflows: Workflows = {
       location: "/storage/documents/Workflow 2",
       status: "Review",
       team_handling: "Team D",
-      file_name: "doc_review_4.pdf",
+      documents: "financials.xlsx, timeline.pptx",
       assigned_user: "williamwhite",
       team_manager: "williamwhite",
-      assigned_date: "23-03-2025",
+      assigned_date: "04-06-2025",
       workflow_history: [
         {
           team: "Team A",
           username: "emilyjohnson",
           approved_by: "janesmith",
-          approved_on: "21-03-2025",
-          comments: "Initial review completed"
+          approved_on: "01-06-2025",
+          comments: "Initial review",
+          documents_changed: "financials.xlsx"
         },
         {
           team: "Team B",
           username: "michaelbrown",
           approved_by: "michaelbrown",
-          approved_on: "22-03-2025",
-          comments: "Approved with minor changes"
+          approved_on: "02-06-2025",
+          comments: "Data validation",
+          documents_changed: "financials.xlsx"
         },
         {
           team: "Team C",
           username: "sophiadavis",
           approved_by: "danielgreen",
-          approved_on: "23-03-2025",
-          comments: "Changes implemented"
+          approved_on: "03-06-2025",
+          comments: "Formatting fixes",
+          documents_changed: "timeline.pptx"
         }
-      ]
+      ],
+      next_teams: "Team E, Team F, Team G"
     },
     {
       id: "WF-003",
       name: "Workflow 3",
       location: "/storage/documents/Workflow 3",
-      status: "Complete",
-      team_handling: "Team G",
-      file_name: "doc_review_5.pdf",
-      assigned_user: "liammartin",
-      team_manager: "noahtaylor",
-      assigned_date: "24-03-2025",
+      status: "In Progress",
+      team_handling: "Team F",
+      documents: "codebase.zip, tests.py",
+      assigned_user: "isabellamoore",
+      team_manager: "avajackson",
+      assigned_date: "06-06-2025",
       workflow_history: [
         {
           team: "Team A",
           username: "emilyjohnson",
           approved_by: "janesmith",
-          approved_on: "20-03-2025",
-          comments: "Initial review completed"
+          approved_on: "01-06-2025",
+          comments: "Security review",
+          documents_changed: "codebase.zip"
         },
         {
           team: "Team B",
           username: "michaelbrown",
           approved_by: "michaelbrown",
-          approved_on: "21-03-2025",
-          comments: "Approved"
+          approved_on: "02-06-2025",
+          comments: "Approved logic",
+          documents_changed: "tests.py"
         },
         {
           team: "Team C",
           username: "sophiadavis",
           approved_by: "danielgreen",
-          approved_on: "22-03-2025",
-          comments: "Changes implemented"
+          approved_on: "03-06-2025",
+          comments: "Code cleanup",
+          documents_changed: "codebase.zip"
         },
         {
           team: "Team D",
           username: "williamwhite",
           approved_by: "williamwhite",
-          approved_on: "23-03-2025",
-          comments: "Approved"
+          approved_on: "04-06-2025",
+          comments: "Integration checks",
+          documents_changed: "tests.py"
         },
         {
           team: "Team E",
           username: "alexanderbrooks",
           approved_by: "miaharris",
-          approved_on: "24-03-2025",
-          comments: "Final review completed"
-        },
-        {
-          team: "Team F",
-          username: "isabellamoore",
-          approved_by: "avajackson",
-          approved_on: "25-03-2025",
-          comments: "Approved"
-        },
-        {
-          team: "Team G",
-          username: "liammartin",
-          approved_by: "noahtaylor",
-          approved_on: "26-03-2025",
-          comments: "Final approval"
+          approved_on: "05-06-2025",
+          comments: "Performance approved",
+          documents_changed: "codebase.zip"
         }
-      ]
+      ],
+      next_teams: "Team G"
     },
     {
       id: "WF-004",
       name: "Workflow 4",
       location: "/storage/documents/Workflow 4",
       status: "Rejected",
-      team_handling: "Team E",
-      file_name: "doc_review_6.pdf",
-      assigned_user: "alexanderbrooks",
-      team_manager: "miaharris",
-      assigned_date: "25-03-2025",
+      team_handling: "Admin",
+      documents: "design.ai, content.pdf",
+      assigned_user: "johndoe",
+      team_manager: "johndoe",
+      assigned_date: "05-06-2025",
       workflow_history: [
         {
           team: "Team A",
           username: "emilyjohnson",
           approved_by: "janesmith",
-          approved_on: "22-03-2025",
-          comments: "Initial review completed"
+          approved_on: "01-06-2025",
+          comments: "Concept approved",
+          documents_changed: "design.ai"
         },
         {
           team: "Team B",
           username: "michaelbrown",
           approved_by: "michaelbrown",
-          approved_on: "23-03-2025",
-          comments: "Approved with minor changes"
-        },
-        {
-          team: "Team C",
-          username: "sophiadavis",
-          approved_by: "danielgreen",
-          approved_on: "24-03-2025",
-          comments: "Changes implemented"
-        },
-        {
-          team: "Team D",
-          username: "williamwhite",
-          approved_by: "williamwhite",
-          approved_on: "25-03-2025",
-          comments: "Rejected due to errors"
+          approved_on: "02-06-2025",
+          comments: "Rejected layout",
+          documents_changed: "design.ai"
         },
         {
           team: "Admin",
           username: "johndoe",
           approved_by: "johndoe",
-          approved_on: "26-03-2025",
-          comments: "Document rejected and sent back for revision"
+          approved_on: "05-06-2025",
+          comments: "Sent for redesign",
+          documents_changed: "design.ai"
         }
-      ]
+      ],
+      next_teams: "Team A"
     },
     {
       id: "WF-005",
       name: "Workflow 5",
       location: "/storage/documents/Workflow 5",
       status: "Review",
-      team_handling: "Team F",
-      file_name: "doc_review_7.pdf",
-      assigned_user: "isabellamoore",
-      team_manager: "avajackson",
-      assigned_date: "26-03-2025",
+      team_handling: "Team E",
+      documents: "budget.xlsx, schedule.pdf",
+      assigned_user: "alexanderbrooks",
+      team_manager: "miaharris",
+      assigned_date: "05-06-2025",
       workflow_history: [
         {
           team: "Team A",
           username: "emilyjohnson",
           approved_by: "janesmith",
-          approved_on: "23-03-2025",
-          comments: "Initial review completed"
+          approved_on: "01-06-2025",
+          comments: "Initial numbers OK",
+          documents_changed: "budget.xlsx"
         },
         {
           team: "Team B",
           username: "michaelbrown",
           approved_by: "michaelbrown",
-          approved_on: "24-03-2025",
-          comments: "Approved"
+          approved_on: "02-06-2025",
+          comments: "Adjusted totals",
+          documents_changed: "budget.xlsx"
         },
         {
           team: "Team C",
           username: "sophiadavis",
           approved_by: "danielgreen",
-          approved_on: "25-03-2025",
-          comments: "Changes implemented"
+          approved_on: "03-06-2025",
+          comments: "Format finalized",
+          documents_changed: "schedule.pdf"
         },
         {
           team: "Team D",
           username: "williamwhite",
           approved_by: "williamwhite",
-          approved_on: "26-03-2025",
-          comments: "Under review"
+          approved_on: "04-06-2025",
+          comments: "Timeline verified",
+          documents_changed: "schedule.pdf"
         }
-      ]
+      ],
+      next_teams: "Team F, Team G"
     },
     {
       id: "WF-006",
       name: "Workflow 6",
       location: "/storage/documents/Workflow 6",
       status: "Complete",
-      team_handling: "Team H",
-      file_name: "doc_review_8.pdf",
-      assigned_user: "jamesanderson",
-      team_manager: "charlottellee",
-      assigned_date: "27-03-2025",
+      team_handling: "Team G",
+      documents: "final_report.pdf",
+      assigned_user: "noahtaylor",
+      team_manager: "noahtaylor",
+      assigned_date: "07-06-2025",
       workflow_history: [
         {
           team: "Team A",
           username: "emilyjohnson",
           approved_by: "janesmith",
-          approved_on: "24-03-2025",
-          comments: "Initial review completed"
+          approved_on: "01-06-2025",
+          comments: "Draft approved",
+          documents_changed: "final_report.pdf"
         },
         {
           team: "Team B",
           username: "michaelbrown",
           approved_by: "michaelbrown",
-          approved_on: "25-03-2025",
-          comments: "Approved"
+          approved_on: "02-06-2025",
+          comments: "Data verified",
+          documents_changed: "final_report.pdf"
         },
         {
           team: "Team C",
           username: "sophiadavis",
           approved_by: "danielgreen",
-          approved_on: "26-03-2025",
-          comments: "Changes implemented"
+          approved_on: "03-06-2025",
+          comments: "Formatting done",
+          documents_changed: "final_report.pdf"
         },
         {
           team: "Team D",
           username: "williamwhite",
           approved_by: "williamwhite",
-          approved_on: "27-03-2025",
-          comments: "Approved"
+          approved_on: "04-06-2025",
+          comments: "Legal check",
+          documents_changed: "final_report.pdf"
         },
         {
           team: "Team E",
           username: "alexanderbrooks",
           approved_by: "miaharris",
-          approved_on: "28-03-2025",
-          comments: "Final review completed"
+          approved_on: "05-06-2025",
+          comments: "Final numbers OK",
+          documents_changed: "final_report.pdf"
         },
         {
           team: "Team F",
           username: "isabellamoore",
           approved_by: "avajackson",
-          approved_on: "29-03-2025",
-          comments: "Approved"
+          approved_on: "06-06-2025",
+          comments: "Approved for release",
+          documents_changed: "final_report.pdf"
         },
         {
           team: "Team G",
-          username: "liammartin",
+          username: "noahtaylor",
           approved_by: "noahtaylor",
-          approved_on: "30-03-2025",
-          comments: "Final approval"
-        },
-        {
-          team: "Team H",
-          username: "jamesanderson",
-          approved_by: "charlottellee",
-          approved_on: "31-03-2025",
-          comments: "Document completed"
+          approved_on: "07-06-2025",
+          comments: "Publication confirmed",
+          documents_changed: "final_report.pdf"
         }
-      ]
+      ],
+      next_teams: ""
     },
     {
       id: "WF-007",
       name: "Workflow 7",
       location: "/storage/documents/Workflow 7",
       status: "Rejected",
-      team_handling: "Team B",
-      file_name: "doc_review_9.pdf",
-      assigned_user: "michaelbrown",
-      team_manager: "michaelbrown",
-      assigned_date: "28-03-2025",
+      team_handling: "Admin",
+      documents: "prototype.fig, notes.txt",
+      assigned_user: "johndoe",
+      team_manager: "johndoe",
+      assigned_date: "03-06-2025",
       workflow_history: [
         {
           team: "Team A",
           username: "emilyjohnson",
           approved_by: "janesmith",
-          approved_on: "25-03-2025",
-          comments: "Initial review completed"
+          approved_on: "01-06-2025",
+          comments: "Concept approved",
+          documents_changed: "prototype.fig"
         },
         {
           team: "Team B",
           username: "michaelbrown",
           approved_by: "michaelbrown",
-          approved_on: "26-03-2025",
-          comments: "Rejected due to errors"
+          approved_on: "02-06-2025",
+          comments: "Rejected - incomplete",
+          documents_changed: "prototype.fig"
         },
         {
           team: "Admin",
           username: "johndoe",
           approved_by: "johndoe",
-          approved_on: "27-03-2025",
-          comments: "Document rejected and sent back for revision"
+          approved_on: "03-06-2025",
+          comments: "Returned for revisions",
+          documents_changed: "prototype.fig"
         }
-      ]
+      ],
+      next_teams: ""
     },
     {
       id: "WF-008",
       name: "Workflow 8",
       location: "/storage/documents/Workflow 8",
       status: "Review",
-      team_handling: "Team G",
-      file_name: "doc_review_10.pdf",
-      assigned_user: "liammartin",
-      team_manager: "noahtaylor",
-      assigned_date: "29-03-2025",
+      team_handling: "Team E",
+      documents: "policy.md, guidelines.pdf",
+      assigned_user: "alexanderbrooks",
+      team_manager: "miaharris",
+      assigned_date: "05-06-2025",
       workflow_history: [
         {
           team: "Team A",
           username: "emilyjohnson",
           approved_by: "janesmith",
-          approved_on: "26-03-2025",
-          comments: "Initial review completed"
+          approved_on: "01-06-2025",
+          comments: "Initial draft OK",
+          documents_changed: "policy.md"
         },
         {
           team: "Team B",
           username: "michaelbrown",
           approved_by: "michaelbrown",
-          approved_on: "27-03-2025",
-          comments: "Approved"
+          approved_on: "02-06-2025",
+          comments: "Legal adjustments",
+          documents_changed: "policy.md"
         },
         {
           team: "Team C",
           username: "sophiadavis",
           approved_by: "danielgreen",
-          approved_on: "28-03-2025",
-          comments: "Changes implemented"
+          approved_on: "03-06-2025",
+          comments: "Formatting complete",
+          documents_changed: "guidelines.pdf"
         },
         {
           team: "Team D",
           username: "williamwhite",
           approved_by: "williamwhite",
-          approved_on: "29-03-2025",
-          comments: "Under review"
+          approved_on: "04-06-2025",
+          comments: "Compliance check",
+          documents_changed: "guidelines.pdf"
         }
-      ]
+      ],
+      next_teams: "Team F, Team G"
     }
   ]
 };

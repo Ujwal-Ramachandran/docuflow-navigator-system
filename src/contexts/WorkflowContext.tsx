@@ -14,12 +14,14 @@ interface WorkflowContextType {
   filterWorkflowsByUser: (username: string) => Workflow[];
   approveWorkflow: (workflowId: string, comment: string) => void;
   rejectWorkflow: (workflowId: string, comment: string) => void;
+  assignWorkflowToUser: (workflowId: string, username: string) => void;
+  createNewWorkflow: (name: string, documents: string, selectedTeams?: string[]) => void;
 }
 
 const WorkflowContext = createContext<WorkflowContextType | undefined>(undefined);
 
-// Updated TEAM_SEQUENCE based on the provided team data
-const TEAM_SEQUENCE = ["Team A", "Team B", "Team C", "Team D", "Team E", "Team F", "Team G", "Team H"];
+// Default team sequence - Admin can customize this when creating workflows
+const DEFAULT_TEAM_SEQUENCE = ["Team A", "Team B", "Team C", "Team D", "Team E", "Team F", "Team G", "Team H"];
 
 export const WorkflowProvider = ({ children }: { children: ReactNode }) => {
   const [workflows, setWorkflows] = useState<Workflow[]>(mockWorkflows.workflows);
@@ -36,12 +38,11 @@ export const WorkflowProvider = ({ children }: { children: ReactNode }) => {
     setWorkflows(prevWorkflows => 
       prevWorkflows.map(workflow => {
         if (workflow.id === workflowId) {
-          // Create a new history item
           const newHistoryItem: WorkflowHistoryItem = {
             team: workflow.team_handling,
             username: currentUser.username,
-            approved_by: "",
-            approved_on: "",
+            approved_by: currentUser.username,
+            approved_on: new Date().toLocaleDateString('en-GB'),
             comments: comment
           };
 
@@ -67,10 +68,10 @@ export const WorkflowProvider = ({ children }: { children: ReactNode }) => {
     setWorkflows(prevWorkflows => 
       prevWorkflows.map(workflow => {
         if (workflow.id === workflowId) {
-          const currentTeamIndex = TEAM_SEQUENCE.indexOf(workflow.team_handling);
+          const nextTeamsArray = workflow.next_teams.split(', ').filter(team => team.trim() !== '');
           
           // Check if this is the last team
-          if (currentTeamIndex === TEAM_SEQUENCE.length - 1) {
+          if (nextTeamsArray.length === 0) {
             // This is the final team, mark as complete
             const newHistoryItem: WorkflowHistoryItem = {
               team: workflow.team_handling,
@@ -83,11 +84,13 @@ export const WorkflowProvider = ({ children }: { children: ReactNode }) => {
             return {
               ...workflow,
               status: 'Complete',
-              workflow_history: [...workflow.workflow_history, newHistoryItem]
+              workflow_history: [...workflow.workflow_history, newHistoryItem],
+              next_teams: ""
             };
           } else {
             // Move to the next team
-            const nextTeam = TEAM_SEQUENCE[currentTeamIndex + 1];
+            const nextTeam = nextTeamsArray[0];
+            const remainingTeams = nextTeamsArray.slice(1).join(', ');
             
             // Create a new history item for the completed team
             const newHistoryItem: WorkflowHistoryItem = {
@@ -98,22 +101,14 @@ export const WorkflowProvider = ({ children }: { children: ReactNode }) => {
               comments: comment
             };
 
-            // Create an initial history item for the next team
-            const nextTeamHistoryItem: WorkflowHistoryItem = {
-              team: nextTeam,
-              username: "", // Will be assigned later
-              approved_by: "",
-              approved_on: "",
-              comments: "Awaiting action"
-            };
-
             return {
               ...workflow,
               team_handling: nextTeam,
               status: 'In Progress',
               assigned_user: "", // Will be assigned by the next team's manager
               assigned_date: new Date().toLocaleDateString('en-GB'),
-              workflow_history: [...workflow.workflow_history, newHistoryItem, nextTeamHistoryItem]
+              workflow_history: [...workflow.workflow_history, newHistoryItem],
+              next_teams: remainingTeams
             };
           }
         }
@@ -136,7 +131,7 @@ export const WorkflowProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const approveWorkflow = (workflowId: string, comment: string) => {
-    if (!currentUser || currentUser.role !== 'team_manager') return;
+    if (!currentUser) return;
     
     moveToNextTeam(workflowId, comment);
     
@@ -161,14 +156,15 @@ export const WorkflowProvider = ({ children }: { children: ReactNode }) => {
             comments: `REJECTED: ${comment}`
           };
           
-          // Reset to the first team
-          const firstTeam = TEAM_SEQUENCE[0];
-          
+          // Reset to Admin for review
           return {
             ...workflow,
-            team_handling: firstTeam,
+            team_handling: "Admin",
             status: 'Rejected',
-            workflow_history: [...workflow.workflow_history, newHistoryItem]
+            assigned_user: "johndoe",
+            team_manager: "johndoe",
+            workflow_history: [...workflow.workflow_history, newHistoryItem],
+            next_teams: "Team A, Team B, Team C, Team D, Team E, Team F, Team G, Team H"
           };
         }
         return workflow;
@@ -178,7 +174,59 @@ export const WorkflowProvider = ({ children }: { children: ReactNode }) => {
     toast({
       variant: 'destructive',
       title: 'Workflow Rejected',
-      description: `The document has been rejected and returned to the beginning of the workflow.`,
+      description: `The document has been rejected and sent to Admin for review.`,
+    });
+  };
+
+  const assignWorkflowToUser = (workflowId: string, username: string) => {
+    if (!currentUser || currentUser.role !== 'team_manager') return;
+
+    setWorkflows(prevWorkflows => 
+      prevWorkflows.map(workflow => {
+        if (workflow.id === workflowId && workflow.team_handling === currentUser.team) {
+          return {
+            ...workflow,
+            assigned_user: username,
+            assigned_date: new Date().toLocaleDateString('en-GB')
+          };
+        }
+        return workflow;
+      })
+    );
+
+    toast({
+      title: 'Workflow Assigned',
+      description: `Workflow has been assigned to ${username}`,
+    });
+  };
+
+  const createNewWorkflow = (name: string, documents: string, selectedTeams?: string[]) => {
+    if (!currentUser || currentUser.role !== 'admin') return;
+
+    const workflowId = `WF-${String(workflows.length + 1).padStart(3, '0')}`;
+    const teamsSequence = selectedTeams && selectedTeams.length > 0 ? selectedTeams : DEFAULT_TEAM_SEQUENCE;
+    const firstTeam = teamsSequence[0];
+    const remainingTeams = teamsSequence.slice(1).join(', ');
+
+    const newWorkflow: Workflow = {
+      id: workflowId,
+      name: name,
+      location: `/storage/documents/${name}`,
+      status: 'In Progress',
+      team_handling: firstTeam,
+      documents: documents,
+      assigned_user: "",
+      team_manager: "",
+      assigned_date: new Date().toLocaleDateString('en-GB'),
+      workflow_history: [],
+      next_teams: remainingTeams
+    };
+
+    setWorkflows(prevWorkflows => [...prevWorkflows, newWorkflow]);
+
+    toast({
+      title: 'New Workflow Created',
+      description: `${name} has been created and assigned to ${firstTeam}`,
     });
   };
   
@@ -191,7 +239,9 @@ export const WorkflowProvider = ({ children }: { children: ReactNode }) => {
       filterWorkflowsByTeam,
       filterWorkflowsByUser,
       approveWorkflow,
-      rejectWorkflow
+      rejectWorkflow,
+      assignWorkflowToUser,
+      createNewWorkflow
     }}>
       {children}
     </WorkflowContext.Provider>
